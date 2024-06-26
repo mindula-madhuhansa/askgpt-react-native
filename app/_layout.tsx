@@ -56,7 +56,7 @@ function InitialLayout() {
     console.log("isSignedIn", isSignedIn);
 
     if (isSignedIn && !inAuthGroup) {
-      router.replace("/(auth)");
+      router.replace("/(auth)/(drawer)/(chat)/new");
     } else if (!isSignedIn && inAuthGroup) {
       router.replace("/");
     }
