@@ -9,21 +9,69 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { useSignIn, useSignUp } from "@clerk/clerk-expo";
 
 import Colors from "@/constants/Colors";
 import { defaultStyles } from "@/constants/Styles";
 
-const Page = () => {
+export default function Page() {
   const { type } = useLocalSearchParams<{ type: "login" | "register" }>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
+  const [emailAddress, setEmailAddress] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const onSignUpPress = async () => {};
+  const {
+    signIn,
+    isLoaded: signInIsLoaded,
+    setActive: signInSetActive,
+  } = useSignIn();
+  const {
+    signUp,
+    isLoaded: signUpIsLoaded,
+    setActive: signUpSetActive,
+  } = useSignUp();
 
-  const onLoginPress = async () => {};
+  const onSignUpPress = async () => {
+    if (!signUpIsLoaded) return;
+    setLoading(true);
+
+    try {
+      const result = await signUp.create({ emailAddress, password });
+      console.log("onSignUpPress ~ result:", result);
+
+      signUpSetActive({
+        session: result.createdSessionId,
+      });
+    } catch (error: any) {
+      Alert.alert(error.errors[0].message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onLoginPress = async () => {
+    if (!signInIsLoaded) return;
+    setLoading(true);
+
+    try {
+      const result = await signIn.create({
+        identifier: emailAddress,
+        password,
+      });
+      console.log("onLoginPress ~ result:", result);
+
+      signInSetActive({
+        session: result.createdSessionId,
+      });
+    } catch (error: any) {
+      Alert.alert(error.errors[0].message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -47,8 +95,8 @@ const Page = () => {
         <TextInput
           autoCapitalize="none"
           placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
+          value={emailAddress}
+          onChangeText={setEmailAddress}
           style={styles.inputField}
         />
         <TextInput
@@ -78,7 +126,7 @@ const Page = () => {
       )}
     </KeyboardAvoidingView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -116,5 +164,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default Page;
