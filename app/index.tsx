@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 
 import AnimatedIntro from "@/components/AnimatedIntro";
+import BottomLoginSheet from "@/components/BottomLoginSheet";
 
 export default function Index() {
   return (
@@ -10,6 +11,7 @@ export default function Index() {
       }}
     >
       <AnimatedIntro />
+      <BottomLoginSheet />
     </View>
   );
 }
