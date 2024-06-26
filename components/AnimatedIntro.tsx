@@ -9,11 +9,11 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { ReText } from "react-native-redash";
-import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
 
 import { content } from "@/constants/AnimatedIntroContent";
 
-const AnimatedIntro = () => {
+export default function AnimatedIntro() {
   const { width } = useWindowDimensions();
   const ballWidth = 34;
   const half = width / 2 - ballWidth / 2;
@@ -173,7 +173,7 @@ const AnimatedIntro = () => {
       </Animated.View>
     </Animated.View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -207,5 +207,3 @@ const styles = StyleSheet.create({
     marginTop: 300,
   },
 });
-
-export default AnimatedIntro;

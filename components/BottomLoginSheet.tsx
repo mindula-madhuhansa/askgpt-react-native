@@ -1,12 +1,12 @@
+import { Link } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-import { defaultStyles } from "@/constants/Styles";
-import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import { Link } from "expo-router";
+import { defaultStyles } from "@/constants/Styles";
 
-const BottomLoginSheet = () => {
+export default function BottomLoginSheet() {
   const { bottom } = useSafeAreaInsets();
 
   return (
@@ -59,7 +59,7 @@ const BottomLoginSheet = () => {
       </Link>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -93,5 +93,3 @@ const styles = StyleSheet.create({
     borderColor: Colors.grey,
   },
 });
-
-export default BottomLoginSheet;
