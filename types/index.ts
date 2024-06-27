@@ -8,3 +8,7 @@ export type HeaderDropDownProps = {
   selected?: string;
   onSelect: (key: string) => void;
 };
+
+export type MessageInputProps = {
+  onShouldSendMessage: (message: string) => void;
+};
