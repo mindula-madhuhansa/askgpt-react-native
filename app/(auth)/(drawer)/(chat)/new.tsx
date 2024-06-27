@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { Stack } from "expo-router";
-import { useAuth } from "@clerk/clerk-expo";
 import {
   View,
   KeyboardAvoidingView,
@@ -8,71 +5,32 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
+import { useState } from "react";
+import { Redirect, Stack } from "expo-router";
+import { FlashList } from "@shopify/flash-list";
+import { useMMKVString } from "react-native-mmkv";
 
-import { Message, Role } from "@/types";
+import { Message } from "@/types";
+import { storage } from "@/utils/storage";
 import { defaultStyles } from "@/constants";
-import HeaderDropDown from "@/components/HeaderDropDown";
+import ChatMessage from "@/components/ChatMessage";
 import MessageInput from "@/components/MessageInput";
 import MessageIdeas from "@/components/MessageIdeas";
-import { FlashList } from "@shopify/flash-list";
-import ChatMessage from "@/components/ChatMessage";
-
-const DUMMY_MESSAGES: Message[] = [
-  {
-    role: Role.Bot,
-    content: "Hello, how can I help you today?",
-  },
-  {
-    role: Role.User,
-    content: "I'm having trouble with my account.",
-  },
-  {
-    role: Role.Bot,
-    content: "I'm sorry to hear that. What seems to be the problem?",
-  },
-  {
-    role: Role.User,
-    content: "I can't log in.",
-  },
-  {
-    role: Role.Bot,
-    content: "Have you tried resetting your password?",
-  },
-  {
-    role: Role.User,
-    content: "Yes, but it's still not working.",
-  },
-  {
-    role: Role.Bot,
-    content: "I can help you with that. What's your email address?",
-  },
-  {
-    role: Role.User,
-    content: " [email protected]",
-  },
-  {
-    role: Role.Bot,
-    content: "I've sent you an email with a link to reset your password.",
-  },
-  {
-    role: Role.User,
-    content: "Thank you!",
-  },
-  {
-    role: Role.Bot,
-    content: "You're welcome. Is there anything else I can help you with?",
-  },
-  {
-    role: Role.User,
-    content: "No, that's all. Thanks again!",
-  },
-];
+import HeaderDropDown from "@/components/HeaderDropDown";
 
 export default function Page() {
-  const { signOut } = useAuth();
   const [height, setHeight] = useState(0);
-  const [messages, setMessages] = useState<Message[]>(DUMMY_MESSAGES);
-  const [modelVersion, setModelVersion] = useState("1.5-flash");
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const [key, setKey] = useMMKVString("apiKey", storage);
+  const [modelVersion, setModelVersion] = useMMKVString(
+    "modelVersion",
+    storage
+  );
+
+  if (!key || key === "") {
+    return <Redirect href={"/(auth)/(modal)/settings"} />;
+  }
 
   const getCompletion = async (message: string) => {
     console.log("Message: ", message);
@@ -80,7 +38,6 @@ export default function Page() {
 
   const onLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
-    console.log("Height: ", height);
     setHeight(height);
   };
 
@@ -92,13 +49,21 @@ export default function Page() {
             <HeaderDropDown
               title="AskGPT"
               items={[
-                { key: "1.0-pro", title: "Gemini 1.0 Pro", icon: "bolt" },
                 {
-                  key: "1.5-flash",
+                  key: "gemini-1.0-pro",
+                  title: "Gemini 1.0 Pro",
+                  icon: "bolt",
+                },
+                {
+                  key: "gemini-1.5-flash",
                   title: "Gemini 1.5 Flash",
                   icon: "star",
                 },
-                { key: "1.5-pro", title: "Gemini 1.5 Pro", icon: "sparkles" },
+                {
+                  key: "gemini-1.5-pro",
+                  title: "Gemini 1.5 Pro",
+                  icon: "sparkles",
+                },
               ]}
               onSelect={(key) => setModelVersion(key)}
               selected={modelVersion}

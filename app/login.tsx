@@ -39,7 +39,6 @@ export default function Page() {
 
     try {
       const result = await signUp.create({ emailAddress, password });
-      console.log("onSignUpPress ~ result:", result);
 
       signUpSetActive({
         session: result.createdSessionId,
@@ -60,7 +59,6 @@ export default function Page() {
         identifier: emailAddress,
         password,
       });
-      console.log("onLoginPress ~ result:", result);
 
       signInSetActive({
         session: result.createdSessionId,
