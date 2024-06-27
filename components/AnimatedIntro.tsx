@@ -11,7 +11,7 @@ import Animated, {
 import { ReText } from "react-native-redash";
 import { StyleSheet, useWindowDimensions } from "react-native";
 
-import { content } from "@/constants/AnimatedIntroContent";
+import { content } from "@/constants";
 
 export default function AnimatedIntro() {
   const { width } = useWindowDimensions();

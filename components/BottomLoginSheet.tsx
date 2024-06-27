@@ -3,8 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-import Colors from "@/constants/Colors";
-import { defaultStyles } from "@/constants/Styles";
+import { defaultStyles, Colors } from "@/constants";
 
 export default function BottomLoginSheet() {
   const { bottom } = useSafeAreaInsets();

@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Stack } from "expo-router";
 
-import { defaultStyles } from "@/constants/Styles";
+import { defaultStyles } from "@/constants";
 import HeaderDropDown from "@/components/HeaderDropDown";
 
 export default function Page() {

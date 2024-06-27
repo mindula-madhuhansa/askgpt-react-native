@@ -17,7 +17,7 @@ import { DrawerActions } from "@react-navigation/native";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants";
 
 export const CustomDrawerContent = (props: any) => {
   const { bottom, top } = useSafeAreaInsets();

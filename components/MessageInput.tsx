@@ -13,7 +13,7 @@ import * as DocumentPicker from "expo-document-picker";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants";
 import { MessageInputProps } from "@/types";
 
 const ATouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
@@ -110,7 +110,7 @@ export default function MessageInput({
         </Animated.View>
 
         <TextInput
-          autoFocus
+          // autoFocus
           multiline
           ref={inputRef}
           placeholder="Ask anything"

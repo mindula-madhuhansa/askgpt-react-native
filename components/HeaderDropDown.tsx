@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import * as DropdownMenu from "zeego/dropdown-menu";
 
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants";
 import { HeaderDropDownProps } from "@/types";
 
 export default function HeaderDropDown({

@@ -14,8 +14,7 @@ import {
 import { useLocalSearchParams } from "expo-router";
 import { useSignIn, useSignUp } from "@clerk/clerk-expo";
 
-import Colors from "@/constants/Colors";
-import { defaultStyles } from "@/constants/Styles";
+import { defaultStyles, Colors } from "@/constants";
 
 export default function Page() {
   const { type } = useLocalSearchParams<{ type: "login" | "register" }>();
