@@ -16,6 +16,7 @@
   "dependencies": {
     "@clerk/clerk-expo": "^1.2.3",
     "@expo/vector-icons": "^14.0.0",
+    "@google/generative-ai": "^0.14.0",
     "@react-native-menu/menu": "^1.1.2",
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.0.2",
@@ -41,6 +42,7 @@
     "react-native-gesture-handler": "~2.16.1",
     "react-native-ios-context-menu": "^2.5.1",
     "react-native-ios-utilities": "^4.4.5",
+    "react-native-markdown-display": "^7.0.2",
     "react-native-mmkv": "^2.12.2",
     "react-native-reanimated": "~3.10.1",
     "react-native-redash": "^18.1.3",

@@ -5,12 +5,13 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import { useState } from "react";
 import { Redirect, Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 import { useMMKVString } from "react-native-mmkv";
+import { useEffect, useMemo, useState } from "react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-import { Message } from "@/types";
+import { Message, Role } from "@/types";
 import { storage } from "@/utils/storage";
 import { defaultStyles } from "@/constants";
 import ChatMessage from "@/components/ChatMessage";
@@ -32,8 +33,53 @@ export default function Page() {
     return <Redirect href={"/(auth)/(modal)/settings"} />;
   }
 
+  const genAI = useMemo(() => new GoogleGenerativeAI(key), []);
+
+  const model = genAI.getGenerativeModel({
+    model: modelVersion || "gemini-1.5-flash",
+  });
+
+  const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 64,
+    maxOutputTokens: 8192,
+    responseMimeType: "text/plain",
+  };
+
   const getCompletion = async (message: string) => {
-    console.log("Message: ", message);
+    if (message.length === 0) {
+      // TODO: Create chat later, store to DB
+    }
+
+    setMessages([
+      ...messages,
+      {
+        role: Role.User,
+        parts: [{ text: message }],
+      },
+      {
+        role: Role.Bot,
+        parts: [{ text: "I'm thinking..." }],
+      },
+    ]);
+
+    const chat = model.startChat({
+      history: messages,
+      generationConfig,
+    });
+
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    const text = response.text();
+    setMessages((messages) => {
+      const lastMessage = messages.pop();
+      if (lastMessage) {
+        lastMessage.parts[0].text = text;
+        return [...messages, lastMessage];
+      }
+      return messages;
+    });
   };
 
   const onLayout = (event: any) => {

@@ -1,13 +1,11 @@
 export enum Role {
-  User = 0,
-  Bot = 1,
+  User = "user",
+  Bot = "model",
 }
 
 export interface Message {
   role: Role;
-  content: string;
-  imageUrl?: string;
-  prompt?: string;
+  parts: [{ text: string }];
 }
 
 export interface Chat {

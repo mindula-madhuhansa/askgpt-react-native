@@ -1,13 +1,9 @@
 import { Image, StyleSheet, Text, View } from "react-native";
+import Markdown from "react-native-markdown-display";
 
 import { Message, Role } from "@/types";
 
-export default function ChatMessage({
-  role,
-  content,
-  imageUrl,
-  prompt,
-}: Message) {
+export default function ChatMessage({ role, parts }: Message) {
   return (
     <View
       style={[styles.row, role === Role.Bot ? styles.botRow : styles.userRow]}
@@ -20,11 +16,19 @@ export default function ChatMessage({
               style={styles.btnImage}
             />
           </View>
-          <Text style={[styles.text, styles.botText]}>{content}</Text>
+          <View
+            style={{
+              padding: 0,
+              flex: 1,
+              flexWrap: "wrap",
+            }}
+          >
+            <Markdown>{parts[0].text}</Markdown>
+          </View>
         </>
       ) : (
         <>
-          <Text style={[styles.text, styles.userText]}>{content}</Text>
+          <Text style={[styles.text, styles.userText]}>{parts[0].text}</Text>
           <Image
             source={require("@/assets/images/me.png")}
             style={styles.avatar}
@@ -38,7 +42,7 @@ export default function ChatMessage({
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingHorizontal: 14,
     gap: 14,
     marginVertical: 12,
