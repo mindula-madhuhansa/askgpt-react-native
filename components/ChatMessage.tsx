@@ -1,9 +1,25 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Markdown from "react-native-markdown-display";
+import * as ContextMenu from "zeego/context-menu";
 
 import { Message, Role } from "@/types";
+import { Link } from "expo-router";
+import { Colors } from "@/constants";
 
-export default function ChatMessage({ role, parts }: Message) {
+export default function ChatMessage({
+  role,
+  parts,
+  imgUrl,
+  prompt,
+  loading,
+}: Message) {
   return (
     <View
       style={[styles.row, role === Role.Bot ? styles.botRow : styles.userRow]}
@@ -16,19 +32,39 @@ export default function ChatMessage({ role, parts }: Message) {
               style={styles.btnImage}
             />
           </View>
-          <View
-            style={{
-              padding: 0,
-              flex: 1,
-              flexWrap: "wrap",
-            }}
-          >
-            <Markdown>{parts[0].text}</Markdown>
-          </View>
+
+          {loading ? (
+            <View style={styles.loading}>
+              <ActivityIndicator size="small" color={Colors.primary} />
+            </View>
+          ) : (
+            <>
+              {parts[0].text === "" && imgUrl ? (
+                <Image source={{ uri: imgUrl }} style={styles.previewImage} />
+              ) : (
+                <View
+                  style={{
+                    padding: 0,
+                    flex: 1,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Markdown>{parts[0].text}</Markdown>
+                </View>
+              )}
+            </>
+          )}
         </>
       ) : (
         <>
-          <Text style={[styles.text, styles.userText]}>{parts[0].text}</Text>
+          {loading ? (
+            <View style={styles.loading}>
+              <ActivityIndicator size="small" color={Colors.primary} />
+            </View>
+          ) : (
+            <Text style={[styles.text, styles.userText]}>{parts[0].text}</Text>
+          )}
+
           <Image
             source={require("@/assets/images/me.png")}
             style={styles.avatar}

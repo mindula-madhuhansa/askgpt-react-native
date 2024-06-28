@@ -6,6 +6,9 @@ export enum Role {
 export interface Message {
   role: Role;
   parts: [{ text: string }];
+  imgUrl?: string;
+  prompt?: string;
+  loading?: boolean;
 }
 
 export interface Chat {

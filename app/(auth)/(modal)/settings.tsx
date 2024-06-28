@@ -16,18 +16,22 @@ import { Colors, defaultStyles } from "@/constants";
 
 const Page = () => {
   const [key, setKey] = useMMKVString("apiKey", storage);
+  const [repKey, setRepKey] = useMMKVString("replicateKey", storage);
 
   const router = useRouter();
   const { signOut } = useAuth();
   const [apiKey, setApiKey] = useState("");
+  const [replicateKey, setReplicateKey] = useState("");
 
   const saveApiKey = async () => {
     setKey(apiKey);
+    setRepKey(replicateKey);
     router.push("/(auth)/(drawer)/(chat)/new");
   };
 
   const removeApiKey = async () => {
     setKey("");
+    setRepKey("");
   };
 
   return (
@@ -51,7 +55,16 @@ const Page = () => {
             style={styles.input}
             value={apiKey}
             onChangeText={setApiKey}
-            placeholder="Enter your API key"
+            placeholder="Enter your Gemini API key"
+            autoCorrect={false}
+            autoCapitalize="none"
+          />
+
+          <TextInput
+            style={styles.input}
+            value={replicateKey}
+            onChangeText={setReplicateKey}
+            placeholder="Enter your Replicate API key"
             autoCorrect={false}
             autoCapitalize="none"
           />

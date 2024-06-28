@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+export const POLLING_INTERVAL = 1000;
+
 export const Colors = {
   primary: "#20AB6E",
   lime: "#D7FFD4",

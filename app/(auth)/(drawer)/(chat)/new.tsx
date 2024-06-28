@@ -5,15 +5,16 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
+import { useMemo, useState } from "react";
 import { Redirect, Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 import { useMMKVString } from "react-native-mmkv";
-import { useEffect, useMemo, useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { Message, Role } from "@/types";
 import { storage } from "@/utils/storage";
 import { defaultStyles } from "@/constants";
+
 import ChatMessage from "@/components/ChatMessage";
 import MessageInput from "@/components/MessageInput";
 import MessageIdeas from "@/components/MessageIdeas";
@@ -32,6 +33,11 @@ export default function Page() {
   if (!key || key === "") {
     return <Redirect href={"/(auth)/(modal)/settings"} />;
   }
+
+  const onLayout = (event: any) => {
+    const { height } = event.nativeEvent.layout;
+    setHeight(height);
+  };
 
   const genAI = useMemo(() => new GoogleGenerativeAI(key), []);
 
@@ -80,11 +86,6 @@ export default function Page() {
       }
       return messages;
     });
-  };
-
-  const onLayout = (event: any) => {
-    const { height } = event.nativeEvent.layout;
-    setHeight(height);
   };
 
   return (
