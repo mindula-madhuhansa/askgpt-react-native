@@ -34,3 +34,12 @@ export type MessageInputProps = {
 export type MessageIdeasProps = {
   onSelectCard: (message: string) => void;
 };
+
+export type DropDownMenuProps = {
+  items: Array<{
+    key: string;
+    title: string;
+    icon: string;
+  }>;
+  onSelect: (key: string) => void;
+};

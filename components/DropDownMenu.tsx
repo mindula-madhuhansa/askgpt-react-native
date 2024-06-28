@@ -1,35 +1,14 @@
-import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import * as DropdownMenu from "zeego/dropdown-menu";
 
-import { Colors } from "@/constants";
-import { HeaderDropDownProps } from "@/types";
+import { DropDownMenuProps } from "@/types";
 
-export default function HeaderDropDown({
-  title,
-  selected,
-  items,
-  onSelect,
-}: HeaderDropDownProps) {
+export default function DropDownMenu({ items, onSelect }: DropDownMenuProps) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ fontWeight: "500", fontSize: 16 }}>{title}</Text>
-          {selected && (
-            <Text
-              style={{
-                marginLeft: 10,
-                fontSize: 16,
-                fontWeight: "500",
-                color: Colors.greyLight,
-              }}
-            >
-              {selected} ▼
-            </Text>
-          )}
-        </View>
+        <Ionicons name="ellipsis-horizontal" size={24} color={"#fff"} />
       </DropdownMenu.Trigger>
-
       <DropdownMenu.Content
         loop={false}
         side="bottom"

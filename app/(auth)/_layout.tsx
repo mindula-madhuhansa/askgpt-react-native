@@ -28,6 +28,26 @@ export default function AuthLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="(modal)/[url]"
+        options={{
+          headerTitle: "",
+          presentation: "fullScreenModal",
+          headerTransparent: true,
+          headerShadowVisible: false,
+          headerBlurEffect: "dark",
+          headerStyle: { backgroundColor: "rgba(0,0,0,0.4)" },
+          headerLeft: () => (
+            <>
+              {router.canGoBack() && (
+                <TouchableOpacity onPress={() => router.back()}>
+                  <Ionicons name="close" size={24} color="#fff" />
+                </TouchableOpacity>
+              )}
+            </>
+          ),
+        }}
+      />
     </Stack>
   );
 }

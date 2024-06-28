@@ -65,12 +65,19 @@ export default function ChatMessage({
               {parts[0].text === "" && imgUrl ? (
                 <ContextMenu.Root>
                   <ContextMenu.Trigger>
-                    <Pressable>
-                      <Image
-                        source={{ uri: imgUrl }}
-                        style={styles.previewImage}
-                      />
-                    </Pressable>
+                    <Link
+                      href={`/(auth)/(modal)/${encodeURIComponent(
+                        imgUrl
+                      )}?prompt=${encodeURIComponent(prompt!)}`}
+                      asChild
+                    >
+                      <Pressable>
+                        <Image
+                          source={{ uri: imgUrl }}
+                          style={styles.previewImage}
+                        />
+                      </Pressable>
+                    </Link>
                   </ContextMenu.Trigger>
                   <ContextMenu.Content
                     loop={true}
