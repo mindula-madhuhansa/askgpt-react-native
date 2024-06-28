@@ -6,12 +6,17 @@ import {
   Text,
   View,
 } from "react-native";
-import Markdown from "react-native-markdown-display";
-import * as ContextMenu from "zeego/context-menu";
-
-import { Message, Role } from "@/types";
 import { Link } from "expo-router";
+import * as ContextMenu from "zeego/context-menu";
+import Markdown from "react-native-markdown-display";
+
+import {
+  copyImageToClipboard,
+  downloadAndSaveImage,
+  shareImage,
+} from "@/utils/image";
 import { Colors } from "@/constants";
+import { Message, Role } from "@/types";
 
 export default function ChatMessage({
   role,
@@ -20,6 +25,24 @@ export default function ChatMessage({
   prompt,
   loading,
 }: Message) {
+  const contextItems = [
+    {
+      title: "Copy",
+      systemIcon: "doc.on.doc",
+      action: () => copyImageToClipboard(imgUrl!),
+    },
+    {
+      title: "Save to Photos",
+      systemIcon: "arrow.down.to.line",
+      action: () => downloadAndSaveImage(imgUrl!),
+    },
+    {
+      title: "Share",
+      systemIcon: "square.and.arrow.up",
+      action: () => shareImage(imgUrl!),
+    },
+  ];
+
   return (
     <View
       style={[styles.row, role === Role.Bot ? styles.botRow : styles.userRow]}
@@ -40,7 +63,40 @@ export default function ChatMessage({
           ) : (
             <>
               {parts[0].text === "" && imgUrl ? (
-                <Image source={{ uri: imgUrl }} style={styles.previewImage} />
+                <ContextMenu.Root>
+                  <ContextMenu.Trigger>
+                    <Pressable>
+                      <Image
+                        source={{ uri: imgUrl }}
+                        style={styles.previewImage}
+                      />
+                    </Pressable>
+                  </ContextMenu.Trigger>
+                  <ContextMenu.Content
+                    loop={true}
+                    alignOffset={0}
+                    avoidCollisions={true}
+                    collisionPadding={0}
+                  >
+                    {contextItems.map((item, index) => (
+                      <ContextMenu.Item
+                        key={item.title}
+                        {...item}
+                        onSelect={item.action}
+                      >
+                        <ContextMenu.ItemTitle>
+                          {item.title}
+                        </ContextMenu.ItemTitle>
+                        <ContextMenu.ItemIcon
+                          ios={{
+                            name: item.systemIcon,
+                            pointSize: 18,
+                          }}
+                        />
+                      </ContextMenu.Item>
+                    ))}
+                  </ContextMenu.Content>
+                </ContextMenu.Root>
               ) : (
                 <View
                   style={{

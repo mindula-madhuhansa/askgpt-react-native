@@ -44,6 +44,14 @@
             "deploymentTarget": "15.0"
           }
         }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow AskGPT to access your photos.",
+          "savePhotosPermission": "Allow AskGPT to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
       ]
     ],
     "experiments": {

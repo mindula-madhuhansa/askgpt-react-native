@@ -19,7 +19,6 @@ export async function pollForImage(
       setTimeout(() => pollForImage(url, key, setImgUrl), POLLING_INTERVAL);
     } else if (data.status === "succeeded") {
       const imageUrl = data.output[0];
-      console.log("Image generated:", imageUrl);
 
       setImgUrl(imageUrl);
     } else if (data.status === "failed") {

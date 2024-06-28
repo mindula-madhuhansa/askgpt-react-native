@@ -14,15 +14,25 @@ import { useMMKVString } from "react-native-mmkv";
 import { Message, Role } from "@/types";
 import { storage } from "@/utils/storage";
 import { Colors, defaultStyles } from "@/constants";
+import { generateImage } from "@/utils/generateImage";
 
 import ChatMessage from "@/components/ChatMessage";
 import MessageInput from "@/components/MessageInput";
 import HeaderDropDown from "@/components/HeaderDropDown";
-import { generateImage } from "@/utils/generateImage";
+
+const dummyMessages: Message[] = [
+  {
+    role: Role.Bot,
+    parts: [{ text: "" }],
+    imgUrl: "https://galaxies.dev/img/meerkat_2.jpg",
+    prompt:
+      "A meerkat astronaut in a futuristic spacesuit, standing upright on a rocky, alien landscape resembling the surface of Mars. The spacesuit is highly detailed with reflective visor and intricate life-support systems. The background shows a distant starry sky and a small Earth visible in the far horizon. The meerkat looks curious and brave, embodying the spirit of exploration.",
+  },
+];
 
 export default function Page() {
   const [height, setHeight] = useState(0);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(dummyMessages);
   const [imgUrl, setImgUrl] = useState<string>("");
   const [working, setWorking] = useState<boolean>(false);
 
